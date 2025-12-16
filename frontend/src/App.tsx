@@ -6,6 +6,16 @@ import { Layout } from './components/layout/Layout';
 import { ProtectedRoute } from './guards/ProtectedRoute';
 import { LoginPage } from './pages/auth/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { SchoolSetupPage } from './pages/setup/SchoolSetupPage';
+import { ClassesSetupPage } from './pages/setup/ClassesSetupPage';
+import { StudentsSetupPage } from './pages/setup/StudentsSetupPage';
+import { SessionsPage } from './pages/teaching/SessionsPage';
+import { AssessmentsPage } from './pages/assessments/AssessmentsPage';
+import { ProgressHeatmapPage } from './pages/progress/ProgressHeatmapPage';
+import { CompliancePage } from './pages/compliance/CompliancePage';
+import { NudgesPage } from './pages/nudges/NudgesPage';
+import { ReportsPage } from './pages/reports/ReportsPage';
+import { AdminPage } from './pages/admin/AdminPage';
 import './i18n/config';
 
 function App() {
@@ -47,14 +57,51 @@ function App() {
           }
         />
         <Route
+          path="/setup"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SchoolSetupPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/setup/classes"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ClassesSetupPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/setup/students"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <StudentsSetupPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teaching"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SessionsPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/assessments"
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Assessments</h1>
-                  <p className="text-gray-600 mt-2">Assessment module coming soon...</p>
-                </div>
+                <AssessmentsPage />
               </Layout>
             </ProtectedRoute>
           }
@@ -64,23 +111,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Progress & Reports</h1>
-                  <p className="text-gray-600 mt-2">Progress tracking module coming soon...</p>
-                </div>
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/setup"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Setup</h1>
-                  <p className="text-gray-600 mt-2">Setup module coming soon...</p>
-                </div>
+                <ProgressHeatmapPage />
               </Layout>
             </ProtectedRoute>
           }
@@ -90,10 +121,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Compliance</h1>
-                  <p className="text-gray-600 mt-2">Compliance module coming soon...</p>
-                </div>
+                <CompliancePage />
               </Layout>
             </ProtectedRoute>
           }
@@ -103,10 +131,17 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Parent Nudges</h1>
-                  <p className="text-gray-600 mt-2">Nudges module coming soon...</p>
-                </div>
+                <NudgesPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ReportsPage />
               </Layout>
             </ProtectedRoute>
           }
@@ -116,10 +151,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">Admin Console</h1>
-                  <p className="text-gray-600 mt-2">Admin module coming soon...</p>
-                </div>
+                <AdminPage />
               </Layout>
             </ProtectedRoute>
           }

@@ -16,8 +16,10 @@ export function Sidebar() {
 
   const navItems: NavItem[] = [
     { path: '/dashboard', labelKey: 'menu.daily', icon: '📚' },
+    { path: '/teaching', labelKey: 'menu.daily', icon: '📖' },
     { path: '/assessments', labelKey: 'menu.assessments', icon: '📊' },
     { path: '/progress', labelKey: 'menu.reports', icon: '📈' },
+    { path: '/reports', labelKey: 'menu.reports', icon: '📋' },
     { path: '/setup', labelKey: 'menu.setup', icon: '⚙️' },
     { path: '/compliance', labelKey: 'menu.compliance', icon: '✅' },
     { path: '/nudges', labelKey: 'menu.nudges', icon: '💬' },
