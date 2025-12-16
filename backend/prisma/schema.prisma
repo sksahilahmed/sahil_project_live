@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEACHER
+  HEAD
+  OFFICER
+  ADMIN
+}
+
+enum AssessmentType {
+  READING
+  MATH
+}
+
+enum ComplianceType {
+  POSHAN
+  SANITATION
+  MHM
+  INSPECTION
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String?   @unique
+  phone        String?   @unique
+  passwordHash String
+  role         Role      @default(TEACHER)
+  langPref     String    @default("en") // or, hi, en
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  classes      Class[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model School {
+  id              String   @id @default(uuid())
+  name            String
+  code            String?  @unique // UDISE code
+  mediums         String[]  // ["or", "hi", "en"]
+  grades          Int[]    // [1, 2, 3, 4, 5]
+  facilitiesFlags Json     // {toilets: true, handwash: true, ...}
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  classes         Class[]
+  students        Student[]
+  compliance      Compliance[]
+  veqi            VEQI[]
+
+  @@map("schools")
+}
+
+model Class {
+  id          String   @id @default(uuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  grade       Int
+  section     String
+  teacherId   String?
+  teacher     User?    @relation(fields: [teacherId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  students    Student[]
+  sessions    Session[]
+  assessments Assessment[]
+  timetable   Timetable?
+  usages      Usage[]
+
+  @@unique([schoolId, grade, section])
+  @@map("classes")
+}
+
+model Student {
+  id          String   @id @default(uuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  classId     String
+  class       Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  roll        Int
+  name        String
+  readingBand String?  // R0, R1, R2, R3
+  mathBand    String?  // A0, A1, A2
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  assessments Assessment[]
+
+  @@unique([classId, roll])
+  @@map("students")
+}
+
+model Timetable {
+  id        String   @id @default(uuid())
+  classId   String   @unique
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  day       String   // "monday", "tuesday", etc.
+  periods   Json     // Array of period objects
+  flnBlock  Json     // FLN block timing
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("timetables")
+}
+
+model Session {
+  id            String   @id @default(uuid())
+  classId       String
+  class         Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  date          DateTime @default(now())
+  activityIds   String[]
+  activeMinutes Int
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model Assessment {
+  id           String         @id @default(uuid())
+  studentId    String
+  student      Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classId       String
+  class        Class          @relation(fields: [classId], references: [id], onDelete: Cascade)
+  type         AssessmentType
+  date         DateTime       @default(now())
+  resultBand   String         // R0-R3 or A0-A2
+  wpmOrScore   Int?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([studentId, date])
+  @@map("assessments")
+}
+
+model Usage {
+  id            String   @id @default(uuid())
+  classId       String
+  class         Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  chapterId     String
+  date          DateTime @default(now())
+  minutes       Int
+  participants  Int
+  quizScore     Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("usages")
+}
+
+model Compliance {
+  id        String         @id @default(uuid())
+  schoolId  String
+  school    School         @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  type      ComplianceType
+  date      DateTime       @default(now())
+  status    String         // "pass" | "fail" | "partial"
+  remarks   String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@map("compliance")
+}
+
+model VEQI {
+  id             String   @id @default(uuid())
+  schoolId       String
+  school         School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  quarter        String   // "2024-Q1"
+  componentScores Json    // {foundational: 65, timeOnTask: 70, ...}
+  totalScore     Float
+  planActions    Json     // [{component: "foundational", action: "...", ...}]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([schoolId, quarter])
+  @@map("veqi")
+}
+
+model ContentItem {
+  id         String   @id @default(uuid())
+  title      String
+  subject    String   // "reading" | "math"
+  levelTag   String   // R0-R3 or A0-A2
+  locale     String   // "or" | "hi" | "en"
+  bodyMd     String   // Markdown content
+  attachments String[] // URLs
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("content_items")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  details   Json?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+
