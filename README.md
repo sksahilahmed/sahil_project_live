@@ -119,12 +119,36 @@ A comprehensive web platform that helps village schools:
 
 ```
 vsip-project/
-├── frontend/     # React app
-├── backend/      # NestJS API
-├── content/      # Activity cards, rubrics
-├── locales/      # i18n files
-├── docs/         # Documentation
-└── infra/        # Docker, CI/CD
+├── frontend/          # React + Vite web application
+│   ├── src/           # Source code
+│   ├── public/        # Static assets
+│   └── README.md      # Frontend documentation
+├── backend/           # NestJS REST API
+│   ├── src/           # Source code
+│   ├── prisma/        # Database schema & migrations
+│   └── README.md      # Backend documentation
+├── content/           # Instructional content
+│   ├── activities/    # Activity cards
+│   ├── rubrics/       # Assessment rubrics
+│   └── README.md      # Content guide
+├── locales/           # Translation files
+│   ├── or.json        # Odia translations
+│   ├── hi.json        # Hindi translations
+│   ├── en.json        # English translations
+│   └── README.md      # Locale guide
+├── docs/              # Project documentation
+│   ├── api/           # API documentation
+│   ├── setup/         # Setup guides
+│   ├── guides/        # User guides
+│   └── CONTRIBUTING.md # Contribution guidelines
+├── infra/             # Infrastructure
+│   ├── docker/        # Docker configs
+│   └── ci-cd/         # CI/CD pipelines
+├── README.md          # This file
+├── QUICK_START.md     # Quick setup guide
+├── REQUIREMENTS_ANALYSIS.md
+├── PROJECT_PLAN.md
+└── RESEARCH_METHODOLOGY.md
 ```
 
 ---
