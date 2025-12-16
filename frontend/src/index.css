@@ -6,11 +6,13 @@
   font-family: 'Inter', 'Noto Sans Odia', 'Noto Sans Devanagari', system-ui, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  background-color: #f9fafb;
 }
 
 /* Font family for Odia */
@@ -26,6 +28,31 @@ body {
 /* Font family for English */
 [lang="en"] {
   font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
 

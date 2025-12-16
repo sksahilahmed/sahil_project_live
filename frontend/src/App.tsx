@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useAuthStore } from './store/auth.store';
 import { useI18nStore } from './store/i18n.store';
 import { Layout } from './components/layout/Layout';
@@ -10,7 +9,6 @@ import { DashboardPage } from './pages/DashboardPage';
 import './i18n/config';
 
 function App() {
-  const { i18n } = useTranslation();
   const { isAuthenticated, fetchProfile } = useAuthStore();
   const { language } = useI18nStore();
 

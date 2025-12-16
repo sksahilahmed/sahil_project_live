@@ -1,0 +1,32 @@
+{
+  "app": {
+    "title": "Village School Improvement Platform",
+    "description": "Platform for improving foundational literacy and numeracy in village schools"
+  },
+  "menu": {
+    "daily": "Daily Teaching",
+    "assessments": "Assessments",
+    "reports": "Reports",
+    "setup": "Setup",
+    "compliance": "Compliance",
+    "nudges": "Nudges",
+    "admin": "Admin"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login"
+    },
+    "logout": "Logout"
+  },
+  "action": {
+    "start_period": "Start Period",
+    "end_period": "End Period",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  }
+}
+

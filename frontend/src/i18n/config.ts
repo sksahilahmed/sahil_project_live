@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import enTranslations from '../../locales/en.json';
-import hiTranslations from '../../locales/hi.json';
-import orTranslations from '../../locales/or.json';
+import enTranslations from './locales/en.json';
+import hiTranslations from './locales/hi.json';
+import orTranslations from './locales/or.json';
 
 i18n
   .use(initReactI18next)
